@@ -76,20 +76,29 @@ class RegistrationPage:
         lastname_entry = self.create_entry(container, "#220a46", "نام خانوادگی", 1, 0)
         self.create_label(container, "#220a46", 16, "کدملی", 2, 1)
         national_code_entry = self.create_entry(container, "#220a46", "کدملی", 2, 0)
+        button_container = tkinter.Frame(center_frame, bg="#ffffff")
+        button_container.grid_columnconfigure(0, weight=1)
+        button_container.grid_columnconfigure(1, weight=1)
+        button_container.pack(pady=(60, 10), fill="x", padx=20)
+        back_to_login_button = customtkinter.CTkButton(
+            button_container,
+            height=60,
+            corner_radius=10,
+            text=common_tools.use_persian("بازگشت"),
+            font=("DejaVu Sans", 16),
+            fg_color="#603cff",
+            command=self.go_to_login_page,
+        )
+        back_to_login_button.grid(row=0,column=0)
         submit_button = customtkinter.CTkButton(
-            center_frame,
+            button_container,
             height=60,
             corner_radius=10,
             text=common_tools.use_persian("ثبت درخواست"),
             font=("DejaVu Sans", 16),
             fg_color="#603cff",
         )
-        submit_button.pack(anchor="center", pady=(60, 10))
-
-
-if __name__ == "__main__":
-    window = tkinter.Tk()
-    window.attributes("-zoomed", True)
-    window.minsize(1000, 750)
-    registration_page = RegistrationPage(window)
-    window.mainloop()
+        submit_button.grid(row=0,column=1)
+    def go_to_login_page(self):
+        from pages.login import LoginPage
+        self.page_changer.change(LoginPage)

@@ -1,14 +1,12 @@
 import sys
 import tkinter
 from pathlib import Path
-
 import customtkinter
 
-sys.path.append(str(Path(__file__).parent))
-from registration import RegistrationPage
 
 sys.path.append(str(Path(__file__).parent.parent))
 import common_tools
+import services.auth
 
 
 class LoginPage:
@@ -19,8 +17,6 @@ class LoginPage:
         self.create_widgets()
         self.page_changer = pg_changer
 
-    def go_to_register(self):
-        self.page_changer.change(RegistrationPage)
 
     def create_label(
         self,
@@ -80,6 +76,9 @@ class LoginPage:
             font=("DejaVu Sans", 15),
             height=50,
             fg_color="#603cff",
+            command=lambda: self.send_login_request(
+                username_entry.get(), password_entry.get()
+            ),
         )
         login_button.grid(row=0, column=0, sticky="ns")
         register_button = customtkinter.CTkButton(
@@ -88,22 +87,11 @@ class LoginPage:
             font=("DejaVu Sans", 15),
             height=50,
             fg_color="#603cff",
-            command=self.go_to_register,
+            command=self.go_to_registration,
         )
         register_button.grid(row=0, column=1, sticky="ns")
-
-
-if __name__ == "__main__":
-    # Window background → #F8F7FC
-    # Login card        → #FFFFFF
-    # Title             → #4C1D95
-    # Input             → #FFFFFF
-    # Input border      → #EDE9FE
-    # Login button      → #6D28D9
-    # Button hover      → #4C1D95
-    # Accent             → #F59E0B
-    window = tkinter.Tk()
-    window.minsize(1000, 750)
-    window.attributes("-zoomed", True)
-    login_page = LoginPage(window)
-    window.mainloop()
+    def go_to_registration(self):
+        from pages.registration import RegistrationPage
+        self.page_changer.change(RegistrationPage)
+    def send_login_request(self, username: str, password: str):
+        services.auth.login(username=username, password=password)
