@@ -1,6 +1,8 @@
-import customtkinter, tkinter
 import sys
+import tkinter
 from pathlib import Path
+
+import customtkinter
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -8,12 +10,13 @@ import common_tools
 
 
 class RegistrationPage:
-    def __init__(self, window: tkinter.Tk):
+    def __init__(self, window: tkinter.Tk, pg_changer: common_tools.PageChanger):
         self.window = window
         self.window.title("registration")
         self.frame = tkinter.Frame(self.window, bg="#c4c4c4")
         self.frame.pack(fill="both", expand=True)
         self.create_widgets()
+        self.page_changer = pg_changer
 
     def create_label(
         self,
@@ -70,9 +73,9 @@ class RegistrationPage:
         self.create_label(container, "#220a46", 16, "نام", 0, 1)
         firstname_entry = self.create_entry(container, "#220a46", "نام", 0, 0)
         self.create_label(container, "#220a46", 16, "نام خانوادگی", 1, 1)
-        lastname_entry=self.create_entry(container,"#220a46","نام خانوادگی",1,0)
+        lastname_entry = self.create_entry(container, "#220a46", "نام خانوادگی", 1, 0)
         self.create_label(container, "#220a46", 16, "کدملی", 2, 1)
-        national_code_entry =self.create_entry(container,"#220a46","کدملی",2,0)
+        national_code_entry = self.create_entry(container, "#220a46", "کدملی", 2, 0)
         submit_button = customtkinter.CTkButton(
             center_frame,
             height=60,
@@ -84,11 +87,9 @@ class RegistrationPage:
         submit_button.pack(anchor="center", pady=(60, 10))
 
 
-
 if __name__ == "__main__":
     window = tkinter.Tk()
-    window.attributes("-zoomed",True)
-    window.minsize(1000,750)
-    registration_page=RegistrationPage(window)
+    window.attributes("-zoomed", True)
+    window.minsize(1000, 750)
+    registration_page = RegistrationPage(window)
     window.mainloop()
-
